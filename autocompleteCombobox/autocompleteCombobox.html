@@ -1,0 +1,85 @@
+<template>
+    <lightning-layout multiple-rows>
+        <lightning-layout-item>
+            <div class={hasSelection} onmouseenter={onInputMouseEtr} onmouseleave={onInputMouseLev}>
+                <div class={dropDownClass} aria-expanded="false" aria-haspopup="listbox" role="combobox">
+                    <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                        <input type="text" class="slds-input slds-combobox__input" id="combobox-id-1"
+                            aria-controls="listbox-id-1" autocomplete="off" role="textbox" aria-autocomplete="list"
+                            placeholder="Type to filter list…" onclick={openDropDown} onblur={closeDropDown}
+                            value={selectedOption.label} onkeypress={handleSearch} onkeyup={navigateItems}                             
+                            />
+                        <span
+                            class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                            <lightning-icon icon-name="utility:down" alternative-text="Down" title="Down"
+                                size="xx-small">
+                            </lightning-icon>
+                        </span>
+                    </div>
+                    <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid" tabindex="0"                    
+                        role="listbox">
+                        <ul class="slds-listbox slds-listbox_vertical" role="presentation" tabindex="0" 
+                        onfocus={onListBox} onblur={hide}
+                        >
+                            <template if:false={listOfData}>
+                                <li role="presentation" class="slds-listbox__item">
+                                    <div class="slds-align_absolute-center slds-p-top_medium">
+                                        <div role="status"
+                                            class="slds-spinner slds-spinner_x-small slds-spinner_inline">
+                                            <span class="slds-assistive-text">Loading</span>
+                                            <div class="slds-spinner__dot-a"></div>
+                                            <div class="slds-spinner__dot-b"></div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <!-- <li role="presentation" class="slds-listbox__item">
+                                    <div id="not-found"
+                                        class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                        role="option">
+                                        <span class="slds-media__body">
+                                            <span class="slds-truncate" title={message}>{message}</span>
+                                        </span>
+                                        <span class="slds-media__figure slds-listbox__option-icon"></span>
+                                    </div>
+                                </li> -->
+                            </template>
+                            <template if:true={listOfData}>
+                                <template for:each={listOfData} for:item="listItem">
+                                    <li role="presentation" class="slds-listbox__item" key={listItem.uniqueid}
+                                        onclick={setOption} data-option-label={listItem.label} onkeypress={setOption}
+                                        data-option-value={listItem.value}
+                                        data-option-reference-name={listItem.referenceName} 
+                                        data-option-relationship-name={listItem.relationshipName} 
+                                        tabindex="-1"
+                                        onfocus={onLIFocus}
+                                        onblur={onLIBlur}
+                                        onkeyup={navigateItems}>
+                                        <div id={listItem.uniqueid}
+                                            class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small"
+                                            role="option">
+                                            <span class="slds-media__body">
+                                                <span class="slds-truncate"
+                                                    title={listItem.label}>{listItem.label}</span>
+                                            </span>
+                                            <template if:true={listItem.isReference}>
+                                                <span class="slds-media__figure slds-listbox__option-icon">
+                                                    <lightning-icon icon-name="utility:chevronright"
+                                                        alternative-text="chevronright" title="chevronright"
+                                                        size="xx-small">
+                                                    </lightning-icon>
+                                                </span>
+                                            </template>
+                                        </div>
+                                    </li>
+                                </template>
+                            </template>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item>
+            <slot name="appendRightArrow"></slot>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>
