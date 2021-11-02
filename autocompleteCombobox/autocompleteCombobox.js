@@ -1,3 +1,10 @@
+/**
+ * @author      Jai Aswani
+ * @company     Solution you proud of 
+ * @description  AutocompleteCombobox Javascript file for providing functionality
+ * History: 
+ *
+ */
 import { LightningElement, api } from 'lwc';
 import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 
